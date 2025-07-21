@@ -14,8 +14,8 @@
     <a mat-button routerLink="/servicios"> <mat-icon>event</mat-icon> Servicios</a>
     <a mat-button color="primary" *ngIf="rolUsuario" routerLink="/agendar-cita"> <mat-icon>event_available</mat-icon> Agendar Cita</a>
     <a mat-button color="primary" *ngIf="rolUsuario" routerLink="/dashboard/panel-usuario"> <mat-icon>person</mat-icon> Perfil</a>
-    <a mat-button color="primary" *ngIf="rolAdmin" routerLink="/dashboard/dashboard-admin"> <mat-icon>admin_panel_settings</mat-icon> Panel Admin</a>
-    <a mat-button color="primary" *ngIf="rolMedico" routerLink="/dashboard/dashboard-medico"> <mat-icon>medical_services</mat-icon> Panel Médico</a>
+    <a mat-button color="primary" *ngIf="rolAdmin" routerLink="/dashboard-admin"> <mat-icon>admin_panel_settings</mat-icon> Panel Admin</a>
+    <a mat-button color="primary" *ngIf="rolMedico" routerLink="/dashboard-medico"> <mat-icon>medical_services</mat-icon> Panel Médico</a>
   </nav>
   <div class="navbar-acceso">
     <mat-icon>login</mat-icon>
