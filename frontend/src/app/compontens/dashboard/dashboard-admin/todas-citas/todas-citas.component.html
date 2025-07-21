@@ -1,0 +1,92 @@
+<h2>Todas las Citas</h2>
+
+<div class="tc-toolbar">
+  <button mat-raised-button color="primary" (click)="mostrarFormNuevaCita()">
+    <mat-icon>add</mat-icon> Agregar cita
+  </button>
+  <mat-form-field appearance="outline" class="tc-estado-filter">
+    <mat-label>Filtrar por estado</mat-label>
+    <mat-select [(ngModel)]="filtroEstado">
+      <mat-option value="">Todos</mat-option>
+      <mat-option value="pendiente">Pendiente</mat-option>
+      <mat-option value="completada">Completada</mat-option>
+      <mat-option value="cancelada">Cancelada</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="tc-busqueda-field">
+    <mat-label>Buscar paciente o médico</mat-label>
+    <input matInput [(ngModel)]="busqueda" placeholder="Nombre o médico">
+  </mat-form-field>
+</div>
+
+<!-- Formulario para agregar cita -->
+<div *ngIf="mostrarFormulario" class="tc-form-container">
+  <h3>Agregar Cita</h3>
+  <form #formCita="ngForm" (ngSubmit)="agregarCita()">
+    <mat-form-field appearance="outline">
+      <mat-label>Paciente</mat-label>
+      <mat-select name="paciente" [(ngModel)]="nuevaCita.paciente" required>
+        <mat-option *ngFor="let p of pacientes" [value]="p.email">{{p.nombre}} ({{p.email}})</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Médico</mat-label>
+      <mat-select name="medico" [(ngModel)]="nuevaCita.medico" required>
+        <mat-option *ngFor="let m of medicos" [value]="m.email">{{m.nombre}} ({{m.email}})</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput name="fecha" [(ngModel)]="nuevaCita.fecha" required type="date">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Hora</mat-label>
+      <input matInput name="hora" [(ngModel)]="nuevaCita.hora" required type="time">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Motivo</mat-label>
+      <input matInput name="motivo" [(ngModel)]="nuevaCita.motivo" required>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Estado</mat-label>
+      <mat-select name="estado" [(ngModel)]="nuevaCita.estado" required>
+        <mat-option value="pendiente">Pendiente</mat-option>
+        <mat-option value="completada">Completada</mat-option>
+        <mat-option value="cancelada">Cancelada</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Guardar</button>
+    <button mat-button type="button" (click)="mostrarFormulario=false">Cancelar</button>
+  </form>
+</div>
+
+<div class="tc-table-container">
+  <table mat-table [dataSource]="citasFiltradas" class="mat-elevation-z8 tc-table">
+    <ng-container matColumnDef="paciente">
+      <th mat-header-cell *matHeaderCellDef>Paciente</th>
+      <td mat-cell *matCellDef="let cita">
+        <span [ngClass]="{'tc-inexistente': pacienteInexistente(cita.paciente)}">{{obtenerNombreUsuario(cita.paciente)}}</span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="medico">
+      <th mat-header-cell *matHeaderCellDef>Médico</th>
+      <td mat-cell *matCellDef="let cita">
+        <span [ngClass]="{'tc-inexistente': medicoInexistente(cita.medico)}">{{obtenerNombreUsuario(cita.medico)}}</span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let cita">{{cita.fecha}}</td>
+    </ng-container>
+    <ng-container matColumnDef="hora">
+      <th mat-header-cell *matHeaderCellDef>Hora</th>
+      <td mat-cell *matCellDef="let cita">{{cita.hora}}</td>
+    </ng-container>
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let cita">{{cita.estado}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="['paciente','medico','fecha','hora','estado']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['paciente','medico','fecha','hora','estado'];"></tr>
+  </table>
+</div> 

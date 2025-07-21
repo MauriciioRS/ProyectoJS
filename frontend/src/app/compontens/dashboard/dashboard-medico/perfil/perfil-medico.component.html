@@ -1,0 +1,49 @@
+<div class="panel-usuario">
+  <div class="header">
+    <h1>Perfil del Médico</h1>
+    <p>Gestiona tu información personal</p>
+  </div>
+  <div class="contenido-principal">
+    <div class="columna-izquierda">
+      <div class="seccion">
+        <div class="seccion-header">
+          <h2>Información Personal</h2>
+        </div>
+        <div class="perfil-info">
+          <div class="campo">
+            <label>Nombre:</label>
+            <span>-</span>
+          </div>
+          <div class="campo">
+            <label>Email:</label>
+            <span>-</span>
+          </div>
+          <div class="campo">
+            <label>Celular:</label>
+            <span>-</span>
+          </div>
+          <div class="campo">
+            <label>DNI:</label>
+            <span>-</span>
+          </div>
+          <div class="campo">
+            <label>Especialidad:</label>
+            <span>-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="columna-derecha">
+      <div class="seccion">
+        <h2>Próximas Citas</h2>
+        <p>Consulta tus próximas citas médicas programadas.</p>
+        <a class="btn-ver" [routerLink]="['/dashboard-medico/ver-citas']">Ver Citas</a>
+      </div>
+      <div class="seccion">
+        <h2>Mensajes</h2>
+        <p>Envía y revisa mensajes de tus pacientes.</p>
+        <a class="btn-ver" [routerLink]="['/dashboard-medico/mensajes']">Ir a Mensajes</a>
+      </div>
+    </div>
+  </div>
+</div> 

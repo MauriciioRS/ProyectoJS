@@ -39,7 +39,11 @@ export class RegistroComponent {
 
   onSubmit() {
     if (this.registroForm.valid) {
-      const nuevoUsuario = this.registroForm.value;
+      const nuevoUsuario = {
+        ...this.registroForm.value,
+        rol: 'usuario',
+        estado: 'activo'
+      };
       
       // Guardar en la lista de usuarios
       const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');

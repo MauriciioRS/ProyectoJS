@@ -8,13 +8,27 @@ import { NosotrosComponent } from './compontens/navbar/nosotros/nosotros.compone
 import { ServiciosComponent } from './compontens/navbar/servicios/servicios.component';
 import { PanelUsuarioComponent } from './compontens/navbar/panel-usuario/panel-usuario.component';
 import { AgendarCitaComponent } from './compontens/navbar/agendar-cita/agendar-cita.component';
+import { GestionPerfilComponent } from './compontens/dashboard/dashboard-admin/gestion-perfil/gestion-perfil.component';
+import { TodasCitasComponent } from './compontens/dashboard/dashboard-admin/todas-citas/todas-citas.component';
+import { VerMedicosComponent } from './compontens/dashboard/dashboard-admin/ver-medicos/ver-medicos.component';
+import { VerPacientesComponent } from './compontens/dashboard/dashboard-admin/ver-pacientes/ver-pacientes.component';
+import { VerCitasMedicoComponent } from './compontens/dashboard/dashboard-medico/ver-citas/ver-citas-medico.component';
+import { PerfilMedicoComponent } from './compontens/dashboard/dashboard-medico/perfil/perfil-medico.component';
+import { MensajesMedicoComponent } from './compontens/dashboard/dashboard-medico/mensajes/mensajes-medico.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
   { path: 'dashboard-admin', component: DashboardAdminComponent },
+  { path: 'dashboard-admin/gestion-perfil', component: GestionPerfilComponent },
+  { path: 'dashboard-admin/todas-citas', component: TodasCitasComponent },
+  { path: 'dashboard-admin/ver-medicos', component: VerMedicosComponent },
+  { path: 'dashboard-admin/ver-pacientes', component: VerPacientesComponent },
   { path: 'dashboard-medico', component: DashboardMedicoComponent },
+  { path: 'dashboard-medico/ver-citas', component: VerCitasMedicoComponent },
+  { path: 'dashboard-medico/perfil', component: PerfilMedicoComponent },
+  { path: 'dashboard-medico/mensajes', component: MensajesMedicoComponent },
   { path: 'agendar-cita', component: AgendarCitaComponent },
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'servicios', component: ServiciosComponent },

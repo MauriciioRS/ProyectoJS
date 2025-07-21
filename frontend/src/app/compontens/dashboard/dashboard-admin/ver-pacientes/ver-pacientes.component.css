@@ -1,0 +1,56 @@
+h2 {
+  color: #1976d2;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 24px 0 16px 32px;
+}
+.vp-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 18px;
+  margin: 0 32px 18px 32px;
+}
+.vp-busqueda-field {
+  min-width: 250px;
+}
+.vp-table-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(25, 118, 210, 0.07);
+  margin: 0 32px 32px 32px;
+  padding: 24px 0 8px 0;
+}
+.vp-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.vp-table tr.mat-row:hover {
+  background: #f0f7ff;
+}
+.vp-form-container, .vp-detalles-container {
+  background: #fff;
+  margin: 32px 32px 0 32px;
+  padding: 24px 32px;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(25, 118, 210, 0.07);
+}
+.vp-form-container h3, .vp-detalles-container h3 {
+  color: #1976d2;
+  margin-top: 0;
+}
+.vp-historial-table {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+}
+.vp-historial-table th, .vp-historial-table td {
+  border: 1px solid #e0e0e0;
+  padding: 6px 10px;
+  text-align: left;
+}
+.vp-historial-table th {
+  background: #f5faff;
+  color: #1976d2;
+} 
