@@ -1,114 +1,77 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../../infraestructure/database-connection');
+const { getConnection } = require('@infra/database-connection');
+const jwt = require('jsonwebtoken');
 
+// Middleware para verificar el token
+const verificarToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return next({ status: 401, message: 'Token no proporcionado' });
+  }
 
-router.get('/', (req, res) => {
-  const conn = db.getConnection();
-  conn.query('SELECT * FROM users', (err, results) => {
-    if (err) {
-      console.error('Error al obtener usuarios:', err);
-      return res.status(500).json({ error: 'Error al obtener usuarios' });
-    }
-    res.json(results);
-  });
-});
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secreto123');
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return next({ status: 403, message: 'Token inválido o expirado' });
+  }
+};
 
+// Obtener todos los usuarios
+const listarUsuarios = async (req, res, next) => {
+  try {
+    const connection = getConnection();
+    const [rows] = await connection.promise().query('SELECT dni, nombres, apellidoP, apellidoM, edad, Sexo, correo, telefono, direccion, rol, fechaN FROM users');
+    res.json(rows);
+  } catch (err) {
+    next(err);
+  }
+};
 
-router.post('/', (req, res) => {
-  const u = req.body;
-  const conn = db.getConnection();
+// Listar solo médicos
+const listarMedicos = async (req, res, next) => {
+  try {
+    const connection = getConnection();
+    const [rows] = await connection.promise().query("SELECT dni, nombres, apellidoP, apellidoM, edad, Sexo, correo, telefono, direccion, rol, fechaN FROM users WHERE rol = 'medico'");
+    res.json(rows);
+  } catch (err) {
+    next(err);
+  }
+};
 
-  const sql = `INSERT INTO users 
-    (DNI, Usuario, Correo, Contrasena, Telefono, Edad, Direccion, Sexo, Nombres, ApellidoPaterno, ApellidoMaterno)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+// Listar solo pacientes
+const listarPacientes = async (req, res, next) => {
+  try {
+    const connection = getConnection();
+    const [rows] = await connection.promise().query("SELECT dni, nombres, apellidoP, apellidoM, edad, Sexo, correo, telefono, direccion, rol, fechaN FROM users WHERE rol = 'paciente'");
+    res.json(rows);
+  } catch (err) {
+    next(err);
+  }
+};
 
-  const valores = [
-    u.DNI,
-    u.Usuario,
-    u.Correo,
-    u.Contrasena,
-    u.Telefono,
-    u.Edad,
-    u.Direccion,
-    u.Sexo,
-    u.Nombres,
-    u.ApellidoPaterno,
-    u.ApellidoMaterno
-  ];
+// Buscar por DNI
+const buscarPorDNI = async (req, res, next) => {
+  try {
+    const { dni } = req.params;
+    const connection = getConnection();
+    const [rows] = await connection.promise().query('SELECT dni, nombres, apellidoP, apellidoM, edad, Sexo, correo, telefono, direccion, rol, fechaN FROM users WHERE dni = ?', [dni]);
 
-  conn.query(sql, valores, (err, result) => {
-    if (err) {
-      console.error('Error al agregar usuario:', err);
-      return res.status(500).json({ error: 'Error al agregar usuario' });
-    }
-    res.status(201).json({ mensaje: 'Usuario agregado exitosamente' });
-  });
-});
-
-
-router.put('/:dni', (req, res) => {
-  const dni = req.params.dni;
-  const u = req.body;
-  const conn = db.getConnection();
-
-  const sql = `UPDATE users SET 
-    Usuario = ?, 
-    Correo = ?, 
-    Contrasena = ?, 
-    Telefono = ?, 
-    Edad = ?, 
-    Direccion = ?, 
-    Sexo = ?, 
-    Nombres = ?, 
-    ApellidoPaterno = ?, 
-    ApellidoMaterno = ?
-    WHERE DNI = ?`;
-
-  const valores = [
-    u.Usuario,
-    u.Correo,
-    u.Contrasena,
-    u.Telefono,
-    u.Edad,
-    u.Direccion,
-    u.Sexo,
-    u.Nombres,
-    u.ApellidoPaterno,
-    u.ApellidoMaterno,
-    dni
-  ];
-
-  conn.query(sql, valores, (err, result) => {
-    if (err) {
-      console.error('Error al actualizar usuario:', err);
-      return res.status(500).json({ error: 'Error al actualizar usuario' });
+    if (rows.length === 0) {
+      return next({ status: 404, message: 'Usuario no encontrado' });
     }
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
-    }
+    res.json(rows[0]);
+  } catch (err) {
+    next(err);
+  }
+};
 
-    res.json({ mensaje: 'Usuario actualizado exitosamente' });
-  });
-});
-
-router.delete('/:dni', (req, res) => {
-  const dni = req.params.dni;
-  const conn = db.getConnection();
-
-  conn.query('DELETE FROM users WHERE DNI = ?', [dni], (err, result) => {
-    if (err) {
-      console.error('Error al eliminar usuario:', err);
-      return res.status(500).json({ error: 'Error al eliminar usuario' });
-    }
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
-    }
-
-    res.json({ mensaje: 'Usuario eliminado exitosamente' });
-  });
-});
-
-module.exports = router;
+module.exports = {
+  verificarToken,
+  listarUsuarios,
+  listarMedicos,
+  listarPacientes,
+  buscarPorDNI
+};

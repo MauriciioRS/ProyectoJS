@@ -1,167 +1,117 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
-interface Cita {
-  id: number;
-  fecha: string;
-  hora: string;
-  doctor: string;
-  especialidad: string;
-  sede: string;
-  estado: 'programada' | 'completada' | 'cancelada' | 'atendida';
-}
-
-interface Usuario {
-  nombre: string;
-  email: string;
-  telefono: string;
-  fechaNacimiento: string;
-  direccion: string;
-}
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { RouterModule, Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-panel-usuario',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatListModule,
+    MatDividerModule,
+    RouterModule,
+    MatButtonModule
+  ],
   templateUrl: './panel-usuario.component.html',
-  styleUrls: ['./panel-usuario.component.css']
+  styleUrls: ['./panel-usuario.component.scss']
 })
 export class PanelUsuarioComponent implements OnInit {
-  
-  usuario: Usuario = {
-    nombre: '',
-    email: '',
-    telefono: '',
-    fechaNacimiento: '',
-    direccion: ''
-  };
+  user: any = null;
+  citasHistorial: any[] = [];
+  historialError: boolean = false;
 
-  citasProgramadas: Cita[] = [];
-  historialCitas: Cita[] = [];
-  
-  modoEdicion = false;
-  mensaje = '';
+  constructor(private router: Router) {}
 
-  ngOnInit() {
-    this.cargarDatosUsuario();
-    this.cargarCitas();
-  }
+  ngOnInit(): void {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      const dni = parsedUser?.dni;
+      const rol = parsedUser?.rol;
 
-  cargarDatosUsuario() {
-    const usuarioGuardado = localStorage.getItem('usuarioActual');
-    if (usuarioGuardado) {
-      const datos = JSON.parse(usuarioGuardado);
-      this.usuario = {
-        nombre: datos.nombre || 'Usuario',
-        email: datos.email || '',
-        telefono: datos.celular || datos.telefono || '',
-        fechaNacimiento: datos.fechaNacimiento || '',
-        direccion: datos.direccion || ''
-      };
-    }
-  }
-
-  cargarCitas() {
-    // Cargar todas las citas desde localStorage
-    const citasGuardadas = localStorage.getItem('citasAgendadas');
-    if (citasGuardadas) {
-      const todasLasCitas = JSON.parse(citasGuardadas);
-      this.separarCitasPorFecha(todasLasCitas);
-    } else {
-      this.citasProgramadas = [];
-      this.historialCitas = [];
-    }
-  }
-
-  separarCitasPorFecha(todasLasCitas: Cita[]) {
-    const fechaActual = new Date();
-    fechaActual.setHours(0, 0, 0, 0); // Resetear a inicio del día
-
-    this.citasProgramadas = [];
-    this.historialCitas = [];
-
-    todasLasCitas.forEach(cita => {
-      const fechaCita = new Date(cita.fecha);
-      fechaCita.setHours(0, 0, 0, 0);
-
-      if (fechaCita >= fechaActual) {
-        // Cita futura o de hoy - va a citas programadas
-        this.citasProgramadas.push(cita);
-      } else {
-        // Cita pasada - va al historial
-        if (cita.estado === 'programada') {
-          cita.estado = 'atendida';
+      if (dni) {
+        this.obtenerUsuario(dni);
+        if (rol) {
+          this.obtenerHistorialCitas(dni, rol);
         }
-        this.historialCitas.push(cita);
       }
+    }
+  }
+
+  obtenerUsuario(dni: string): void {
+    const token = localStorage.getItem('token');
+
+    fetch(`http://localhost:3000/api/usuarios/${dni}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token || ''}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Error al obtener usuario');
+      return res.json();
+    })
+    .then(data => {
+      this.user = data;
+    })
+    .catch(err => {
+      console.error('Error al obtener el usuario:', err);
     });
-
-    // Guardar los cambios si se actualizaron estados
-    localStorage.setItem('citasAgendadas', JSON.stringify([...this.citasProgramadas, ...this.historialCitas]));
   }
 
+  obtenerHistorialCitas(dni: string, rol: string): void {
+    const token = localStorage.getItem('token');
 
-
-  activarEdicion() {
-    this.modoEdicion = true;
-    this.mensaje = '';
+    fetch(`http://localhost:3000/api/citas/usuario?dni=${dni}&rol=${rol}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token || ''}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('No se pudo cargar el historial de citas');
+      return res.json();
+    })
+   .then(data => {
+  this.citasHistorial = data.citas || [];
+   })
+    .catch(err => {
+      console.error('Error al cargar historial de citas:', err);
+      this.historialError = true;
+    });
   }
 
-  guardarCambios() {
-    // Guardar cambios en localStorage
-    const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual') || '{}');
-    const usuarioActualizado = { ...usuarioActual, ...this.usuario };
-    localStorage.setItem('usuarioActual', JSON.stringify(usuarioActualizado));
-    
-    this.modoEdicion = false;
-    this.mensaje = 'Perfil actualizado correctamente';
-    
-    setTimeout(() => {
-      this.mensaje = '';
-    }, 3000);
+  irAgendarCita(): void {
+    this.router.navigate(['/agendar-cita']);
   }
 
-  cancelarEdicion() {
-    this.cargarDatosUsuario();
-    this.modoEdicion = false;
-    this.mensaje = '';
-  }
+  cancelarCita(id: number): void {
+  const token = localStorage.getItem('token');
+  if (!confirm('¿Estás seguro de cancelar esta cita?')) return;
 
-  cancelarCita(cita: Cita) {
-    if (confirm('¿Estás seguro de que quieres cancelar esta cita?')) {
-      this.citasProgramadas = this.citasProgramadas.filter(c => c.id !== cita.id);
-      localStorage.setItem('citasAgendadas', JSON.stringify([...this.citasProgramadas, ...this.historialCitas]));
-      this.mensaje = 'Cita cancelada correctamente';
-      
-      setTimeout(() => {
-        this.mensaje = '';
-      }, 3000);
+  fetch(`http://localhost:3000/api/citas/cancelar/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token || ''}`,
+      'Content-Type': 'application/json'
     }
-  }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('No se pudo cancelar la cita');
+    // Elimina la cita del historial localmente
+    this.citasHistorial = this.citasHistorial.filter(cita => cita.id !== id);
+  })
+  .catch(err => {
+    alert('Error al cancelar la cita');
+    console.error('Error al cancelar la cita:', err);
+  });
+}
 
-  getEstadoClass(estado: string): string {
-    switch (estado) {
-      case 'programada': return 'estado-programada';
-      case 'completada': return 'estado-completada';
-      case 'cancelada': return 'estado-cancelada';
-      case 'atendida': return 'estado-atendida';
-      default: return '';
-    }
-  }
-
-  formatearFecha(fecha: string): string {
-    if (!fecha) return '';
-    try {
-      const fechaObj = new Date(fecha);
-      return fechaObj.toLocaleDateString('es-ES', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      });
-    } catch (error) {
-      return fecha; 
-    }
-  }
 }

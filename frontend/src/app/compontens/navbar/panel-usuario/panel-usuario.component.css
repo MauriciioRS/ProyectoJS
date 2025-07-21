@@ -350,6 +350,17 @@
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
+.cita-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cita-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .contenido-principal {
