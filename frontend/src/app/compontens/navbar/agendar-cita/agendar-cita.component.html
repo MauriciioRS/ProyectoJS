@@ -19,13 +19,13 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="cita-field">
-        <mat-label>Doctor *</mat-label>
-        <mat-select formControlName="doctor" required>
-          <mat-option value="Dr. García">Dr. García</mat-option>
-          <mat-option value="Dra. López">Dra. López</mat-option>
-          <mat-option value="Dr. Martínez">Dr. Martínez</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <mat-label>Doctor *</mat-label>
+  <mat-select formControlName="doctor" required>
+    <mat-option *ngFor="let medico of medicos" [value]="medico.dni">
+      Dr. {{ medico.nombres }} {{ medico.apellidoP }} {{ medico.apellidoM }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
       <mat-form-field appearance="fill" class="cita-field">
         <mat-label>Sede *</mat-label>

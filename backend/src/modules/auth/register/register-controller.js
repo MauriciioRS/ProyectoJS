@@ -20,7 +20,7 @@ const register = async (req, res, next) => {
     const connection = getConnection();
     const fechaJS = new Date(req.body.fechaN);
     const fechaMySQL = fechaJS.toISOString().split('T')[0];
-    // Validaciones básicas
+   
     if (!dni || !nombres || !apellidoP || !email || !password || !confirmPassword) {
       return next({ status: 400, message: 'Faltan campos obligatorios' });
     }
@@ -31,7 +31,7 @@ const register = async (req, res, next) => {
 
 
 
-    // Verificar si el usuario ya existe por DNI
+    
     const [existing] = await connection.promise().query('SELECT * FROM users WHERE dni = ?', [dni]);
     if (existing.length > 0) {
       return next({ status: 400, message: 'El DNI ya está registrado' });

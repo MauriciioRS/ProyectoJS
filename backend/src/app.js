@@ -28,6 +28,8 @@ app.use('/api/auth/login', require('./modules/auth/login/login-routes'));
 app.use('/api/auth/register', require('./modules/auth/register/register-routers'));
 
 //rutas protegidas
+app.use('/api/citas', verifyToken, require('./modules/citas/citas-routes'));
+app.use('/api/usuarios', verifyToken, require('./modules/users/user-routes'));
 //app.use('/api/usuarios', verifyToken, require('./modules/usuarios/usuarios-routes'));
 app.use(handleHttpError);
 

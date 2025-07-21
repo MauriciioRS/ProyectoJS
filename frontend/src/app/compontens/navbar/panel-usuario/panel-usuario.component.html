@@ -1,140 +1,57 @@
-<div class="panel-usuario">
-  
-  <div class="header">
-    <h1>Panel de Usuario</h1>
-    <p>Gestiona tu información personal y citas médicas</p>
-  </div>
+<mat-card *ngIf="user">
+  <mat-card-title>Te damos la bienvenida, {{ user.nombres }}</mat-card-title>
+  <mat-card-content>
+    <p><strong>DNI:</strong> {{ user.dni }}</p>
+    <p><strong>Correo:</strong> {{ user.correo }}</p>
+    <p><strong>Rol:</strong> {{ user.rol }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="irAgendarCita()">Agendar nueva cita</button>
+  </mat-card-actions>
+</mat-card>
 
-  <div *ngIf="mensaje" class="mensaje-exito">
-    {{ mensaje }}
-  </div>
+<mat-divider></mat-divider>
 
-  <div class="contenido-principal">
-    <div class="columna-izquierda">
-      <div class="seccion">
-        <div class="seccion-header">
-          <h2>Información Personal</h2>
-          <button *ngIf="!modoEdicion" (click)="activarEdicion()" class="btn-editar">
-            Editar
-          </button>
-        </div>
-
-        <div class="perfil-info">
-          <div class="campo" *ngIf="!modoEdicion">
-            <label>Nombre:</label>
-            <span>{{ usuario.nombre || '' }}</span>
-          </div>
-          <div class="campo" *ngIf="modoEdicion">
-            <label>Nombre:</label>
-            <input type="text" [(ngModel)]="usuario.nombre" placeholder="Tu nombre">
-          </div>
-
-          <div class="campo" *ngIf="!modoEdicion">
-            <label>Email:</label>
-            <span>{{ usuario.email || '' }}</span>
-          </div>
-          <div class="campo" *ngIf="modoEdicion">
-            <label>Email:</label>
-            <input type="email" [(ngModel)]="usuario.email" placeholder="tu@email.com">
-          </div>
-
-          <div class="campo" *ngIf="!modoEdicion">
-            <label>Teléfono:</label>
-            <span>{{ usuario.telefono || 'No especificado' }}</span>
-          </div>
-          <div class="campo" *ngIf="modoEdicion">
-            <label>Teléfono:</label>
-            <input type="tel" [(ngModel)]="usuario.telefono" placeholder="Tu teléfono">
-          </div>
-
-          <div class="campo" *ngIf="!modoEdicion">
-            <label>Fecha de Nacimiento:</label>
-            <span>{{ usuario.fechaNacimiento || 'No especificada' }}</span>
-          </div>
-          <div class="campo" *ngIf="modoEdicion">
-            <label>Fecha de Nacimiento:</label>
-            <input type="date" [(ngModel)]="usuario.fechaNacimiento">
-          </div>
-
-          <div class="campo" *ngIf="!modoEdicion">
-            <label>Dirección:</label>
-            <span>{{ usuario.direccion || 'No especificada' }}</span>
-          </div>
-          <div class="campo" *ngIf="modoEdicion">
-            <label>Dirección:</label>
-            <textarea [(ngModel)]="usuario.direccion" placeholder="Tu dirección"></textarea>
-          </div>
-
-          <div class="acciones" *ngIf="modoEdicion">
-            <button (click)="guardarCambios()" class="btn-guardar">
-              Guardar
-            </button>
-            <button (click)="cancelarEdicion()" class="btn-cancelar">
-              Cancelar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="columna-derecha">
-      <div class="seccion">
-        <h2>Citas Programadas</h2>
-        <div class="citas-lista" *ngIf="citasProgramadas.length > 0; else sinCitasProgramadas">
-          <div class="cita-card" *ngFor="let cita of citasProgramadas">
-            <div class="cita-header">
-              <h3>{{ cita.especialidad }}</h3>
-              <span class="estado" [class]="getEstadoClass(cita.estado)">
-                {{ cita.estado }}
-              </span>
+<mat-card *ngIf="citasHistorial.length > 0">
+  <mat-card-title>Historial de Citas</mat-card-title>
+  <mat-list>
+    <mat-list-item *ngFor="let cita of citasHistorial">
+      <mat-card class="cita-card">
+        <mat-card-content>
+          <div class="cita-info">
+            <div>
+              <p><strong>ID Cita:</strong> {{ cita.id }}</p>
+              <p><strong>Fecha:</strong> {{ cita.fechaC }}</p>
+              <p><strong>Especialidad:</strong> {{ cita.especialidad }}</p>
+              <p><strong>Médico:</strong> {{ cita.medico }}</p>
             </div>
-            <div class="cita-detalles">
-              <p><strong>Doctor:</strong> {{ cita.doctor }}</p>
-              <p><strong>Fecha:</strong> {{ formatearFecha(cita.fecha) }}</p>
-              <p><strong>Hora:</strong> {{ cita.hora }}</p>
-              <p><strong>Sede:</strong> {{ cita.sede }}</p>
-            </div>
-            <div class="cita-acciones">
-              <button (click)="cancelarCita(cita)" class="btn-cancelar-cita">
-                Cancelar Cita
-              </button>
+            <div class="cita-actions">
+              <button mat-stroked-button color="warn" (click)="cancelarCita(cita.id)">Cancelar</button>
             </div>
           </div>
-        </div>
-        <ng-template #sinCitasProgramadas>
-          <div class="sin-citas">
-            <p>No tienes citas programadas</p>
-            <a routerLink="/agendar-cita" class="btn-agendar">Agendar Cita</a>
-          </div>
-        </ng-template>
-      </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-list-item>
+  </mat-list>
+</mat-card>
 
-      <div class="seccion">
-        <h2>Historial de Citas</h2>
-        <div class="citas-lista" *ngIf="historialCitas.length > 0; else sinHistorial">
-          <div class="cita-card historial" *ngFor="let cita of historialCitas">
-            <div class="cita-header">
-              <h3>{{ cita.especialidad }}</h3>
-              <span class="estado" [class]="getEstadoClass(cita.estado)">
-                {{ cita.estado }}
-              </span>
-            </div>
-            <div class="cita-detalles">
-              <p><strong>Doctor:</strong> {{ cita.doctor }}</p>
-              <p><strong>Fecha:</strong> {{ formatearFecha(cita.fecha) }}</p>
-              <p><strong>Hora:</strong> {{ cita.hora }}</p>
-              <p><strong>Sede:</strong> {{ cita.sede }}</p>
-            </div>
+<!-- Si hay error al cargar historial -->
+<mat-card *ngIf="historialError">
+  <mat-card-title>Error</mat-card-title>
+  <mat-card-content>
+    <p>No se pudo cargar el historial de citas.</p>
+  </mat-card-content>
+</mat-card>
 
-          </div>
-        </div>
-        <ng-template #sinHistorial>
-          <div class="sin-citas">
-            <p>No hay citas en el historial</p>
-          </div>
-        </ng-template>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Si no hay citas y no hay error -->
+<mat-card *ngIf="!historialError && citasHistorial.length === 0">
+  <mat-card-title>Sin citas registradas</mat-card-title>
+  <mat-card-content>
+    <p>Aún no tienes citas agendadas.</p>
+  </mat-card-content>
+</mat-card>
 
+<!-- Agrega este estilo en tu panel-usuario.component.scss -->
+<!--
+.
+-->
