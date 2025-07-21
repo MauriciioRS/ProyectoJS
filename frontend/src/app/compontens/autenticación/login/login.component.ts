@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     const { dni, contrasena } = this.loginForm.value;
 
     this.http
-      .post<any>('http://localhost:3000/api/login', { dni, contrasena })
+      .post<any>('http://localhost:3000/api/auth/login', { dni, contrasena })
       .subscribe({
         next: (res) => {
           localStorage.setItem('token', res.token);

@@ -24,7 +24,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 //rutas publicas
-app.use('/api/login', require('./modules/auth/login/login-routes'));
+app.use('/api/auth/login', require('./modules/auth/login/login-routes'));
+app.use('/api/auth/register', require('./modules/auth/register/register-routers'));
 
 //rutas protegidas
 //app.use('/api/usuarios', verifyToken, require('./modules/usuarios/usuarios-routes'));
