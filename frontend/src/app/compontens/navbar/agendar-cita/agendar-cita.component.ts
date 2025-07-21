@@ -44,19 +44,19 @@ export class AgendarCitaComponent {
   onSubmit() {
     if (this.citaForm.valid) {
       const nuevaCita = {
-        id: Date.now(), // ID único basado en timestamp
+        id: Date.now(), 
         ...this.citaForm.value,
         estado: 'programada'
       };
       
-      // Obtener citas existentes
+      
       const citasExistentes = localStorage.getItem('citasAgendadas');
       const citas = citasExistentes ? JSON.parse(citasExistentes) : [];
       
-      // Agregar nueva cita
+     
       citas.push(nuevaCita);
       
-      // Guardar en localStorage
+      
       localStorage.setItem('citasAgendadas', JSON.stringify(citas));
       
       this.citaAgendada = nuevaCita;

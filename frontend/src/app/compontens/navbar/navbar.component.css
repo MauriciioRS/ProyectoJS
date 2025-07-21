@@ -63,6 +63,7 @@
   flex: 1 1 auto;
 }
 
+/* aca cambio el tamña y el color de los icnos de mat-icon  xd*/
 .navbar-links a[mat-button] {
   font-weight: 600;
   color: #1976d2;
