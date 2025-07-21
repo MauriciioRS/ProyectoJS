@@ -4,18 +4,20 @@
   </div>
   <h1>Iniciar Sesión</h1>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    
+    <!-- CAMBIO: DNI en lugar de Correo -->
     <mat-form-field appearance="fill" class="login-field">
-      <mat-label>Correo</mat-label>
-      <input matInput formControlName="email" type="email" required>
-      <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-        Correo inválido
+      <mat-label>DNI</mat-label>
+      <input matInput formControlName="dni" type="text" required>
+      <mat-error *ngIf="loginForm.get('dni')?.invalid && loginForm.get('dni')?.touched">
+        DNI requerido
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="login-field">
       <mat-label>Contraseña</mat-label>
-      <input matInput formControlName="password" type="password" required>
-      <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+      <input matInput formControlName="contrasena" type="password" required>
+      <mat-error *ngIf="loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched">
         Contraseña requerida
       </mat-error>
     </mat-form-field>

@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -14,44 +16,66 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule,
+    MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    RouterModule
-  ]
+  ],
 })
-export class LoginComponent {
-  loginForm: FormGroup;
+export class LoginComponent implements OnInit {
+  loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', Validators.required], 
-      password: ['', Validators.required]
+      dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
+      contrasena: ['', Validators.required],
     });
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      if (email === 'admin' && password === 'admin') {
-        localStorage.setItem('rol', 'admin');
-        this.router.navigate(['/dashboard-admin']);
-      } else if (email === 'medico' && password === 'medico') {
-        localStorage.setItem('rol', 'medico');
-        this.router.navigate(['/dashboard-medico']);
-      } else {
-        // Validar contra usuarios registrados
-        const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-        const usuario = usuarios.find((u: any) => u.email === email && u.password === password);
-        if (usuario) {
-          localStorage.setItem('rol', 'usuario');
-         
-          localStorage.setItem('usuarioActual', JSON.stringify(usuario));
-          this.router.navigate(['/dashboard/panel-usuario']);
-        } else {
-          alert('Usuario o contraseña incorrectos');
-        }
-      }
+  onSubmit(): void {
+    if (this.loginForm.invalid) return;
+
+    const { dni, contrasena } = this.loginForm.value;
+
+    this.http
+      .post<any>('http://localhost:3000/api/login', { dni, contrasena })
+      .subscribe({
+        next: (res) => {
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user', JSON.stringify(res.user)); 
+          this.snackBar.open('Inicio de sesión exitoso', 'Cerrar', {
+            duration: 3000,
+          });
+          
+  const user = res.user;
+
+  if (user && user.rol) {
+  
+    if (user.rol === 'administrador') {
+      this.router.navigate(['/dashboard-admin']);
+    
+    } else if(user.rol === 'medico'){
+       this.router.navigate(['/dashboard-medico']);
     }
+    else if (user.rol === 'paciente') {
+      this.router.navigate(['/dashboard/panel-usuario']);
+    }
+
+  }
+        },
+        error: (err) => {
+          const mensaje = err.error?.msg || 'Error al iniciar sesión';
+          this.snackBar.open(mensaje, 'Cerrar', { duration: 3000 });
+        },
+      });
   }
 }
