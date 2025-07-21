@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const { getConnection } = require('@infra/database-connection');
+const bcrypt = require('bcrypt');
 
 const loginController = async (req, res, next) => {
   try {
@@ -25,7 +26,9 @@ const loginController = async (req, res, next) => {
     const user = rows[0];
 
 
-    if (user.contrasena !== contrasena) {
+    const esValido = await bcrypt.compare(contrasena, user.contrasena);
+   
+    if (!esValido) {
       return next({ status: 401, message: 'Contraseña incorrecta' });
     }
 
