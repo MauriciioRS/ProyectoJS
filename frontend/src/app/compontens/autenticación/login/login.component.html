@@ -1,0 +1,26 @@
+<div class="login-container">
+  <div class="login-image">
+    <img src="assets/img/logo.jpg" alt="Logo">
+  </div>
+  <h1>Iniciar Sesión</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="login-field">
+      <mat-label>Correo</mat-label>
+      <input matInput formControlName="email" type="email" required>
+      <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        Correo inválido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="login-field">
+      <mat-label>Contraseña</mat-label>
+      <input matInput formControlName="password" type="password" required>
+      <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        Contraseña requerida
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="login-btn" type="submit" [disabled]="loginForm.invalid">Ingresar</button>
+    <button mat-stroked-button color="primary" class="register-btn" type="button" routerLink="/registro">Regístrate</button>
+  </form>
+</div>

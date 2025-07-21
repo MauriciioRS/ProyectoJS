@@ -1,0 +1,145 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-image: url('/assets/img/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+}
+
+.registro-container {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    border: 2px solid black;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 24px 32px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    backdrop-filter: blur(10px);
+}
+
+.registro-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.registro-image img {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+}
+
+.form-columns {
+    display: flex;
+    width: 100%;
+    gap: 24px;
+    justify-content: space-between;
+}
+
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-column.left {
+    flex: 1;
+}
+
+.form-column.right {
+    flex: 1;
+}
+
+.registro-field {
+    width: 100%;
+    background: #f8f9fa;
+    border-radius:8;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.registro-btn {
+    flex: 1;
+    background: #0057b8;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 25px;
+    padding: 12px 0;
+    font-size: 1rem;
+}
+
+.login-btn {
+    flex: 1;
+    border-radius: 25px;
+    font-weight: 500;
+    color: #0057b8;
+    text-decoration: none;
+    padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+    .registro-container {
+        max-width: 90%;
+        padding: 20px 24px;
+    }
+    
+    .form-columns {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .form-column.left,
+    .form-column.right {
+        flex: 1;
+    }
+    
+    h1 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .buttons-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .registro-btn,
+    .login-btn {
+        width: 100%;
+    }
+}

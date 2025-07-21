@@ -1,0 +1,56 @@
+.landing-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: url('/assets/img/1.jpg') center/cover no-repeat;
+  opacity: 0.13;
+  pointer-events: none;
+}
+
+.landing-container {
+  position: relative;
+  z-index: 1;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #e3f0ff 0%, #f8fbff 100%);
+  border-radius: 24px;
+  margin: 48px auto 0 auto;
+  padding: 48px 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  max-width: 900px;
+  overflow: hidden;
+}
+
+.landing-title,
+.landing-subtitle {
+  position: relative;
+  z-index: 1;
+}
+
+.landing-title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #1793d1;
+  margin-bottom: 24px;
+  text-align: center;
+  text-shadow: 2px 4px 8px rgba(23,147,209,0.10);
+  line-height: 1.1;
+}
+
+.landing-subtitle {
+  font-size: 1.35rem;
+  color: #444;
+  margin-bottom: 0;
+  text-align: center;
+  font-weight: 400;
+}
+
+.landing-container button {
+  font-size: 1.1rem;
+  padding: 12px 36px;
+  border-radius: 24px;
+  font-weight: 700;
+} 

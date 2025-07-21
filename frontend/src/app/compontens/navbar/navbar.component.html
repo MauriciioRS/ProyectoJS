@@ -1,0 +1,33 @@
+
+<mat-toolbar color="transparent" class="navbar-top">
+  <div class="navbar-logo-title">
+    <img src="assets/img/logo.jpg" alt="Logo Salud Smart" class="navbar-logo">
+    <div class="navbar-title-group">
+      <span class="navbar-title-main">Salud <b>Inteligente</b></span>
+      <span class="navbar-title-sub">SALUD EN LÍNEA</span>
+    </div>
+    <span class="navbar-divider">|</span>
+  </div>
+  <nav class="navbar-links">
+    <a mat-button routerLink="/"> <mat-icon>flag</mat-icon> Inicio</a>
+    <a mat-button routerLink="/nosotros"> <mat-icon>emoji_objects</mat-icon> Nosotros</a>
+    <a mat-button routerLink="/servicios"> <mat-icon>event</mat-icon> Servicios</a>
+    <a mat-button color="primary" *ngIf="rolUsuario" routerLink="/agendar-cita"> <mat-icon>event_available</mat-icon> Agendar Cita</a>
+    <a mat-button color="primary" *ngIf="rolUsuario" routerLink="/dashboard/panel-usuario"> <mat-icon>person</mat-icon> Perfil</a>
+    <a mat-button color="primary" *ngIf="rolAdmin" routerLink="/dashboard/dashboard-admin"> <mat-icon>admin_panel_settings</mat-icon> Panel Admin</a>
+    <a mat-button color="primary" *ngIf="rolMedico" routerLink="/dashboard/dashboard-medico"> <mat-icon>medical_services</mat-icon> Panel Médico</a>
+  </nav>
+  <div class="navbar-acceso">
+    <mat-icon>login</mat-icon>
+    <a routerLink="/login">Acceso</a> |
+    <a routerLink="/registro">Registro</a>
+  </div>
+</mat-toolbar>
+
+
+<mat-toolbar color="primary" class="navbar-bottom">
+  <span class="navbar-frase-centro">Tu salud, nuestra prioridad.</span>
+  <span class="navbar-salir-btn" style="margin-left:auto;" *ngIf="loggedIn">
+    <button mat-raised-button color="accent" (click)="logout()">SALIR</button>
+  </span>
+</mat-toolbar> 

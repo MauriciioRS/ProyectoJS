@@ -1,0 +1,150 @@
+.navbar-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #fff;
+  color: #1976d2;
+  box-shadow: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0 24px;
+  min-height: 64px;
+  margin-bottom: 0;
+}
+
+.navbar-logo-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo {
+  height: 48px;
+  width: 48px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.navbar-title-group {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.navbar-title-main {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1976d2;
+}
+
+.navbar-title-main b {
+  color: #00aaff;
+}
+
+.navbar-title-sub {
+  font-size: 0.85rem;
+  color: #1976d2;
+  letter-spacing: 2px;
+}
+
+.navbar-divider {
+  font-size: 2rem;
+  color: #bdbdbd;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+}
+
+.navbar-links a[mat-button] {
+  font-weight: 600;
+  color: #1976d2;
+  font-size: 1.05rem;
+  text-transform: none;
+  background: none;
+}
+
+.navbar-links a[mat-button] mat-icon {
+  margin-right: 4px;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-hablemos {
+  background: #e3f6f1;
+  color: #1976d2;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.btn-agendar {
+  background: #1976d2;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.navbar-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0090d4;
+  color: #fff;
+  min-height: 40px;
+  border-radius: 0;
+  margin: 0;
+  padding: 0 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-top: 0;
+}
+
+.navbar-frase-centro {
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.navbar-acceso {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1rem;
+  margin-left: 24px;
+}
+
+.navbar-acceso a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 2px;
+}
+
+@media (max-width: 900px) {
+  .navbar-top, .navbar-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 8px;
+    min-height: unset;
+  }
+  .navbar-links, .navbar-actions, .navbar-contacto, .navbar-social, .navbar-acceso {
+    justify-content: flex-start !important;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+  .navbar-bottom {
+    justify-content: flex-start;
+  }
+} 
