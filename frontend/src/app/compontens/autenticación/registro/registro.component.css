@@ -9,7 +9,7 @@
     background-repeat: no-repeat;
     padding: 20px;
 }
-
+h1{text-align: center;}
 .registro-container {
     width: 100%;
     max-width: 800px;
@@ -55,16 +55,18 @@ form {
 }
 
 .form-columns {
-    display: flex;
-    width: 100%;
-    gap: 24px;
-    justify-content: space-between;
+  display: flex;
+  gap: 48px;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 24px;
 }
 
 .form-column {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  flex: 1;
 }
 
 .form-column.left {
@@ -83,6 +85,24 @@ form {
 
 .mat-form-field {
     width: 100%;
+    margin-bottom: 0;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #f0f7ff;
+  border-radius: 8px 8px 0 0;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-outline {
+  color: #1976d2;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: #1976d2;
+}
+
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: #1976d2 !important;
 }
 
 .buttons-container {
@@ -109,6 +129,64 @@ form {
     color: #0057b8;
     text-decoration: none;
     padding: 8px 0;
+}
+
+mat-card-title {
+  color: #1976d2;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 32px;
+}
+
+mat-card {
+  background: linear-gradient(135deg, #e3f0ff 0%, #f8fbff 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,123,255,0.10);
+  border: 1.5px solid #1976d2;
+  padding: 48px 48px 32px 48px;
+  margin: 32px 0;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+button[mat-raised-button] {
+  background: linear-gradient(90deg, #1976d2 60%, #00bcd4 100%);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 25px;
+  padding: 12px 36px;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+button[mat-raised-button]:hover:not([disabled]) {
+  background: linear-gradient(90deg, #1565c0 60%, #0097a7 100%);
+  box-shadow: 0 4px 16px rgba(25,118,210,0.18);
+}
+
+button[mat-raised-button][disabled] {
+  background: #e0e0e0;
+  color: #bdbdbd;
+}
+
+@media (max-width: 900px) {
+  .form-columns {
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+  .form-column {
+    min-width: 100%;
+    gap: 20px;
+  }
+  mat-card {
+    padding: 24px 8px 16px 8px;
+  }
 }
 
 @media (max-width: 768px) {
