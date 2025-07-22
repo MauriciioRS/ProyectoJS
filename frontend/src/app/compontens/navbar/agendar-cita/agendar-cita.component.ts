@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
-import { v4 as uuidv4 } from 'uuid';
+
 
 // Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -53,28 +53,7 @@ export class AgendarCitaComponent implements OnInit {
     this.obtenerMedicos();
   }
 
-<<<<<<< HEAD
-  onSubmit() {
-    if (this.citaForm.valid) {
-      const nuevaCita = {
-        id: Date.now(), 
-        ...this.citaForm.value,
-        estado: 'programada'
-      };
-      
-      
-      const citasExistentes = localStorage.getItem('citasAgendadas');
-      const citas = citasExistentes ? JSON.parse(citasExistentes) : [];
-      
-     
-      citas.push(nuevaCita);
-      
-      
-      localStorage.setItem('citasAgendadas', JSON.stringify(citas));
-      
-      this.citaAgendada = nuevaCita;
-      this.citaForm.reset();
-=======
+
 
   obtenerMedicos(): void {
     const token = localStorage.getItem('token');
@@ -103,7 +82,7 @@ export class AgendarCitaComponent implements OnInit {
     if (!token || !user?.dni) {
       alert('Usuario no autenticado.');
       return;
->>>>>>> origin/main
+
     }
 
     
