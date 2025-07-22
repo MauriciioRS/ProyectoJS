@@ -68,7 +68,7 @@ export class PanelUsuarioComponent implements OnInit {
   obtenerHistorialCitas(dni: string, rol: string): void {
     const token = localStorage.getItem('token');
 
-    fetch(`http://localhost:3000/api/citas/usuario?dni=${dni}&rol=${rol}`, {
+    fetch(`https://proyectojs-production.up.railway.app/api/citas/usuario?dni=${dni}&rol=${rol}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token || ''}`,
@@ -96,7 +96,7 @@ export class PanelUsuarioComponent implements OnInit {
   const token = localStorage.getItem('token');
   if (!confirm('¿Estás seguro de cancelar esta cita?')) return;
 
-  fetch(`http://localhost:3000/api/citas/cancelar/${id}`, {
+  fetch(`https://proyectojs-production.up.railway.app/api/citas/cancelar/${id}`, {
     method: 'DELETE',
     headers: {
       'Authorization': `Bearer ${token || ''}`,

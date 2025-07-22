@@ -102,7 +102,7 @@ export class AgendarCitaComponent implements OnInit {
       Authorization: `Bearer ${token}`
     });
 
-    this.http.post('http://localhost:3000/api/citas', cita, { headers }).subscribe({
+    this.http.post('https://proyectojs-production.up.railway.app/api/citas', cita, { headers }).subscribe({
       next: () => {
         alert('Cita agendada con éxito.');
         this.router.navigate(['/mis-citas']);
