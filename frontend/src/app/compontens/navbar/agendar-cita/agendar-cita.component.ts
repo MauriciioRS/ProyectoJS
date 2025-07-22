@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
-import { v4 as uuidv4 } from 'uuid';
+
 
 // Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -54,6 +54,7 @@ export class AgendarCitaComponent implements OnInit {
   }
 
 
+
   obtenerMedicos(): void {
     const token = localStorage.getItem('token');
 
@@ -81,6 +82,7 @@ export class AgendarCitaComponent implements OnInit {
     if (!token || !user?.dni) {
       alert('Usuario no autenticado.');
       return;
+
     }
 
     

@@ -28,7 +28,7 @@ export class MensajesMedicoComponent {
   public mensajesRecibidos: Mensaje[] = [];
 
   enviarMensaje() {
-    // Aquí podrías enviar el mensaje a un backend o guardarlo en localStorage
+    
     this.mensajeEnviado = true;
     setTimeout(() => this.mensajeEnviado = false, 3000);
     this.destinatario = '';
