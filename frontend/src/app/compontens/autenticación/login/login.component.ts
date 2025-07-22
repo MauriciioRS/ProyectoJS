@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     const { dni, contrasena } = this.loginForm.value;
 
     this.http
-      .post<any>('https://faithful-communication-production.up.railway.app/api/auth/login', { dni, contrasena })
+      .post<any>('https://proyectojs-production.up.railway.app/api/auth/login', { dni, contrasena })
       .subscribe({
         next: (res) => {
           localStorage.setItem('token', res.token);

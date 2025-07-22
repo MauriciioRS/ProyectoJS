@@ -46,7 +46,7 @@ export class PanelUsuarioComponent implements OnInit {
   obtenerUsuario(dni: string): void {
     const token = localStorage.getItem('token');
 
-    fetch(`http://localhost:3000/api/usuarios/${dni}`, {
+    fetch(`https://proyectojs-production.up.railway.app/api/usuarios/${dni}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token || ''}`,

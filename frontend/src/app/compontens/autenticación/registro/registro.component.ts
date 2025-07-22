@@ -65,7 +65,7 @@ export class RegistroComponent {
       };
 
       
-      this.http.post('http://localhost:3000/api/auth/register', nuevoUsuario)
+      this.http.post('https://proyectojs-production.up.railway.app/api/auth/register', nuevoUsuario)
         .subscribe({
           next: (res) => {
             console.log('Registro exitoso:', res);

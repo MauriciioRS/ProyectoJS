@@ -62,7 +62,7 @@ export class AgendarCitaComponent implements OnInit {
       Authorization: `Bearer ${token}`
     });
 
-    this.http.get<any[]>('http://localhost:3000/api/usuarios/medicos', { headers }).subscribe({
+    this.http.get<any[]>('https://proyectojs-production.up.railway.app/api/usuarios/medicos', { headers }).subscribe({
       next: (data) => {
         this.medicos = data;
       },
